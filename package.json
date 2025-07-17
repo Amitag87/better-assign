@@ -1,0 +1,53 @@
+{
+  "name": "devops-assessment-project",
+  "version": "1.0.0",
+  "description": "A comprehensive DevOps assessment project demonstrating CI/CD, containerization, monitoring, and deployment automation",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "build": "echo 'Building application...'",
+    "docker:build": "docker build -t devops-assessment .",
+    "docker:run": "docker run -p 3000:3000 devops-assessment",
+    "k8s:deploy": "kubectl apply -f k8s/",
+    "k8s:delete": "kubectl delete -f k8s/"
+  },
+  "keywords": [
+    "devops",
+    "ci-cd",
+    "docker",
+    "kubernetes",
+    "monitoring",
+    "github-actions",
+    "circleci",
+    "datadog",
+    "bugsnag"
+  ],
+  "author": "DevOps Intern",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "@bugsnag/js": "^7.20.2",
+    "@bugsnag/plugin-express": "^7.17.0",
+    "dd-trace": "^4.13.1",
+    "helmet": "^7.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "nodemon": "^3.0.1",
+    "eslint": "^8.53.0",
+    "@types/jest": "^29.5.8"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
