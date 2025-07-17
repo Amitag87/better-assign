@@ -1,0 +1,205 @@
+import type { Customer, Deal, Campaign, User } from "./types"
+
+// Mock data with Indian context
+export const mockCustomers: Customer[] = [
+  {
+    id: "1",
+    name: "Rajesh Kumar",
+    email: "rajesh.kumar@techsolutions.in",
+    phone: "+91-9876543210",
+    company: "Tech Solutions Pvt Ltd",
+    gstNumber: "27AABCT1332L1ZZ",
+    city: "Mumbai",
+    state: "Maharashtra",
+    status: "active",
+    createdAt: "2024-01-15",
+    interactions: [
+      {
+        id: "1",
+        type: "call",
+        description: "Initial business discussion about software requirements",
+        date: "2024-01-15",
+        userId: "1",
+      },
+      {
+        id: "2",
+        type: "whatsapp",
+        description: "Shared product brochure via WhatsApp",
+        date: "2024-01-16",
+        userId: "1",
+      },
+    ],
+  },
+  {
+    id: "2",
+    name: "Priya Sharma",
+    email: "priya.sharma@designstudio.co.in",
+    phone: "+91-9123456789",
+    company: "Creative Design Studio",
+    gstNumber: "09AABCD1234E1ZF",
+    city: "Delhi",
+    state: "Delhi",
+    status: "active",
+    createdAt: "2024-01-16",
+    interactions: [
+      {
+        id: "3",
+        type: "meeting",
+        description: "Face-to-face meeting at client office in Connaught Place",
+        date: "2024-01-18",
+        userId: "2",
+      },
+    ],
+  },
+  {
+    id: "3",
+    name: "Amit Patel",
+    email: "amit.patel@tradingco.com",
+    phone: "+91-9988776655",
+    company: "Gujarat Trading Company",
+    gstNumber: "24AABCP1234F1Z5",
+    city: "Ahmedabad",
+    state: "Gujarat",
+    status: "inactive",
+    createdAt: "2024-01-10",
+    interactions: [],
+  },
+  {
+    id: "4",
+    name: "Sunita Reddy",
+    email: "sunita.reddy@textiles.in",
+    phone: "+91-9876512345",
+    company: "Hyderabad Textiles Ltd",
+    gstNumber: "36AABCH1234G1Z8",
+    city: "Hyderabad",
+    state: "Telangana",
+    status: "active",
+    createdAt: "2024-01-12",
+    interactions: [
+      {
+        id: "4",
+        type: "email",
+        description: "Sent quotation for bulk textile order",
+        date: "2024-01-20",
+        userId: "2",
+      },
+    ],
+  },
+]
+
+export const mockDeals: Deal[] = [
+  {
+    id: "1",
+    title: "Tech Solutions - ERP Implementation",
+    customerId: "1",
+    value: 2500000, // ₹25 Lakhs
+    stage: "negotiation",
+    probability: 75,
+    expectedCloseDate: "2024-02-15",
+    createdAt: "2024-01-15",
+    updatedAt: "2024-01-20",
+    paymentTerms: "30% advance, 70% on delivery",
+  },
+  {
+    id: "2",
+    title: "Creative Design - Website Development",
+    customerId: "2",
+    value: 150000, // ₹1.5 Lakhs
+    stage: "proposal",
+    probability: 50,
+    expectedCloseDate: "2024-03-01",
+    createdAt: "2024-01-16",
+    updatedAt: "2024-01-16",
+    paymentTerms: "50% advance, 50% on completion",
+  },
+  {
+    id: "3",
+    title: "Hyderabad Textiles - Inventory Management System",
+    customerId: "4",
+    value: 800000, // ₹8 Lakhs
+    stage: "lead",
+    probability: 25,
+    expectedCloseDate: "2024-04-15",
+    createdAt: "2024-01-20",
+    updatedAt: "2024-01-20",
+    paymentTerms: "Payment on delivery",
+  },
+]
+
+export const mockCampaigns: Campaign[] = [
+  {
+    id: "1",
+    name: "Diwali Festival Offer 2024",
+    type: "whatsapp",
+    status: "active",
+    targetAudience: "All active customers in Maharashtra and Gujarat",
+    content: "🪔 Diwali Special! Get 25% off on all software solutions. Limited time offer!",
+    scheduledDate: "2024-10-15",
+    metrics: {
+      sent: 2500,
+      delivered: 2400,
+      opened: 1800,
+      clicked: 450,
+      converted: 85,
+    },
+  },
+  {
+    id: "2",
+    name: "GST Compliance Software Launch",
+    type: "email",
+    status: "completed",
+    targetAudience: "SME businesses across India",
+    content: "New GST compliance software - Simplify your tax filing process!",
+    scheduledDate: "2024-01-15",
+    metrics: {
+      sent: 5000,
+      delivered: 4800,
+      opened: 2400,
+      clicked: 480,
+      converted: 120,
+    },
+  },
+  {
+    id: "3",
+    name: "Regional Language Support Update",
+    type: "sms",
+    status: "draft",
+    targetAudience: "Customers in South India",
+    content: "अब हिंदी, तमिल, तेलुगु में भी उपलब्ध! Now available in Hindi, Tamil, Telugu!",
+    scheduledDate: "2024-02-01",
+    metrics: {
+      sent: 0,
+      delivered: 0,
+      opened: 0,
+      clicked: 0,
+      converted: 0,
+    },
+  },
+]
+
+export const mockUsers: User[] = [
+  {
+    id: "1",
+    name: "Vikram Singh",
+    email: "vikram.singh@nextgencrm.in",
+    role: "admin",
+    permissions: ["read", "write", "delete", "manage_users"],
+    territory: "North India",
+  },
+  {
+    id: "2",
+    name: "Kavya Nair",
+    email: "kavya.nair@nextgencrm.in",
+    role: "sales",
+    permissions: ["read", "write"],
+    territory: "South India",
+  },
+  {
+    id: "3",
+    name: "Rohit Gupta",
+    email: "rohit.gupta@nextgencrm.in",
+    role: "marketing",
+    permissions: ["read", "write", "manage_campaigns"],
+    territory: "West India",
+  },
+]
