@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-assessment
+  namespace: ${NAMESPACE:-default}
+  labels:
+    app: devops-assessment
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devops-assessment
+  template:
+    metadata:
+      labels:
+        app: devops-assessment
+        version: v1
+    spec:
+      containers:
+      - name: devops-assessment
+        image: ${DOCKER_REGISTRY:-ghcr.io}/${IMAGE_NAME:-devops-assessment}:${IMAGE_TAG:-latest}
+        ports:
+        - containerPort: 3000
+          name: http
+        env:
+        - name: NODE_ENV
+          value: ${NODE_ENV:-production}
+        - name: PORT
+          value: "3000"
+        - name: BUGSNAG_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: bugsnag-api-key
+        - name: DD_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: datadog-api-key
+        - name: DD_SITE
+          value: "datadoghq.com"
+        - name: DD_SERVICE
+          value: "devops-assessment"
+        - name: DD_VERSION
+          value: "${IMAGE_TAG:-latest}"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tmp-volume
+        emptyDir: {}
+      securityContext:
+        fsGroup: 1001
+      serviceAccountName: devops-assessment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-assessment-service
+  namespace: ${NAMESPACE:-default}
+  labels:
+    app: devops-assessment
+spec:
+  selector:
+    app: devops-assessment
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: devops-assessment
+  namespace: ${NAMESPACE:-default}
+  labels:
+    app: devops-assessment
